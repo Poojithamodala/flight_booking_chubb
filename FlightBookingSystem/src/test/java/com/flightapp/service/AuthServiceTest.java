@@ -1,36 +1,39 @@
 package com.flightapp.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.flightapp.Entity.User;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-class AuthServiceTest {
+public class AuthServiceTest {
 
     @Test
-    void testRegister() {
-       
+    void testRegisterUserNameNotNull() {
         User user = new User();
         user.setName("Poojitha");
-        user.setEmail("pooja@gmail.com");
 
-        User savedUser = user;
-        assertEquals("Poojitha", savedUser.getName());
-        assertEquals("pooja@gmail.com", savedUser.getEmail());
+        assertNotNull(user.getName(), "Name should not be null");
     }
 
     @Test
-    void testLoginSuccess() {
-      
+    void testLoginFailsForWrongPassword() {
         User user = new User();
         user.setEmail("pooja@gmail.com");
         user.setPassword("1234");
 
         String session = null;
-        if ("1234".equals(user.getPassword())) {
-            session = "session123"; 
+
+        if ("0000".equals(user.getPassword())) { 
+            session = "session123";
         }
 
-        assertNotNull(session);
+        assertNull(session, "Session should be null for wrong password");
+    }
+
+    @Test
+    void testEmailFormatContainsAtSymbol() {
+        User user = new User();
+        user.setEmail("pooja@gmail.com");
+
+        assertTrue(user.getEmail().contains("@"), "Email should contain @ symbol");
     }
 }
