@@ -17,13 +17,15 @@ import java.util.*;
 
 @Service
 public class TicketService {
-	@Autowired
 	private FlightRepository flightRepository;
-	
-    @Autowired
     private UserRepository userRepository;
-	@Autowired
 	private TicketRepository ticketRepository;
+	
+	public TicketService(FlightRepository flightRepository, UserRepository userRepository, TicketRepository ticketRepository) {
+			this.flightRepository = flightRepository;
+			this.userRepository = userRepository;
+			this.ticketRepository = ticketRepository;
+	}
 	   public String bookTicket(Long userId,Long departureFlightId,Long returnFlightId,List<Passenger> passengers,FlightType tripType) {
 		User user=userRepository.findById(userId).orElseThrow(()->new RuntimeException("user not found"));
 		Flight departureFlight = flightRepository.findById(departureFlightId).orElseThrow(() -> new RuntimeException("Departure flight not found"));
